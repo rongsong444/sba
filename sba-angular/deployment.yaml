@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sba-angular
+  namespace: sba
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sba-angular
+  template:
+    metadata:
+      labels:
+        app: sba-angular
+    spec:
+      containers:
+        - name: sba-angular
+          image: registry.cn-shanghai.aliyuncs.com/yuanbing/sba-angular:{version}
+          ports:
+            - name: http-port
+              containerPort: 8080
+          env:
+            - name: spring_profiles_active
+              value: k8s
+      imagePullSecrets:
+        - name: sba
