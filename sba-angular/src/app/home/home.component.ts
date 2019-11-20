@@ -15,14 +15,22 @@ export class HomeComponent implements OnInit {
 
   currentUser: User;
   searchText: string;
+  tags:any;
+
 
   constructor(private authenticationService: AuthenticationService,
               private router: Router,
               public dialog: MatDialog) {
-    this.currentUser = this.authenticationService.currentUserValue;
+    //this.currentUser = this.authenticationService.currentUserValue;
    }
 
   ngOnInit() {
+    this.tags = {};
+    this.tags["tag1"] = {title: 'Java',checked: false};
+    this.tags["tag2"] = {title: 'C++',checked: false};
+    this.tags["tag3"] = {title: 'JavaScript',checked: false};
+    console.log(this.searchText);
+    console.log(this.tags);
   }
 
   logoutuser() {

@@ -11,9 +11,11 @@ import { Course } from '../models/course';
 export class MentorListComponent implements OnInit {
 
   courses: Course[];
+  filterCourses:Course[];
   showCourse: boolean;
   @Input() userRole: string;
   @Input() searchText: string;
+  @Input() tags: any;
 
   constructor(private courseservice: CourseService,
               private alertService: AlertService) { }
@@ -29,6 +31,25 @@ export class MentorListComponent implements OnInit {
       if (courses['code'] === 200) {
         // tslint:disable-next-line:no-string-literal
         this.courses = courses['data'];
+
+        for(let i=0;i<this.courses.length;i++){
+
+          if(this.tags["tag1"].checked){
+            if(this.courses[i].skill.search(this.tags["tag1"].tilte)){
+              this.filterCourses.push(this.courses[i]);
+            }
+          }else if(this.tags["tag2"].checked){
+            if(this.courses[i].skill.search(this.tags["tag2"].tilte)){
+              this.filterCourses.push(this.courses[i]);
+            }
+
+          }else if(this.tags["tag3"].checked){
+            if(this.courses[i].skill.search(this.tags["tag3"].tilte)){
+              this.filterCourses.push(this.courses[i]);
+            }
+          }
+        }
+        this.courses = this.filterCourses;
         this.showCourse = false;
       } else if (courses['code'] === 404) {
         // tslint:disable-next-line:no-string-literal

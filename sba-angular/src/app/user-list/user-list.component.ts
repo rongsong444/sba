@@ -25,6 +25,7 @@ export class UserListComponent implements OnInit {
   showInCompletedProgressCourse: boolean;
   @Input() userRole: string;
   @Input() searchText: string;
+  @Input() tags: any;
   rating: string;
   username: string;
   rateCount: number;

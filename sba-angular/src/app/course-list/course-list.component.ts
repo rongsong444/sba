@@ -15,19 +15,22 @@ export class CourseListComponent implements OnInit {
   showAvailableMentorCourse: boolean;
   showCompletedMentorCourse: boolean;
   mentorcourses: MentorCourse[];
+  filterCourses:MentorCourse[];
   mentoravailablecourses: MentorCourse[];
   mentorcompletedcourses: MentorCourse[];
   @Input() searchText: string;
+  @Input() tags: any;
 
   constructor(private courseservice: CourseService,
               private alertService: AlertService) { }
 
   ngOnInit() {
-    this.mentorname = JSON.parse(localStorage.getItem('currentUser')).username;
+    //this.mentorname = JSON.parse(localStorage.getItem('currentUser')).username;
     this.getMentorCourse();
   }
 
   getMentorCourse() {
+    //alert(this.tags["tag1"].checked);
     this.showMentorCourse = true;
 
     this.courseservice.findMentorCourses(1, this.mentorname).subscribe(data => {
@@ -36,6 +39,24 @@ export class CourseListComponent implements OnInit {
         if (data['code'] === 200) {
         // tslint:disable-next-line:no-string-literal
         this.mentorcourses = data['data'];
+
+        for(let i=0;i<this.mentorcourses.length;i++){
+
+          if(this.tags["tag1"].checked){
+            if(this.mentorcourses[i].skill.search(this.tags["tag1"].tilte)){
+              this.filterCourses.push(this.mentorcourses[i]);
+            }
+          }else if(this.tags["tag2"].checked){
+            if(this.mentorcourses[i].skill.search(this.tags["tag2"].tilte)){
+              this.filterCourses.push(this.mentorcourses[i]);
+            }
+
+          }else if(this.tags["tag3"].checked){
+            if(this.mentorcourses[i].skill.search(this.tags["tag3"].tilte)){
+              this.filterCourses.push(this.mentorcourses[i]);
+            }
+          }
+        }
         this.showMentorCourse = false;
       // tslint:disable-next-line:no-string-literal
       } else if (data['code'] === 404) {
